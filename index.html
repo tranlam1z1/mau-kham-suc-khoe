@@ -1,0 +1,600 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phiếu kiểm tra sức khỏe học sinh</title>
+<!-- Thư viện tạo file Word (.docx) ngay trên trình duyệt -->
+<script src="https://cdn.jsdelivr.net/npm/docx@9.6.1/dist/index.iife.js"></script>
+<style>
+  :root{
+    --bg:#f4f6f8; --card:#fff; --text:#1f2933; --muted:#616e7c; --line:#d9e2ec;
+    --accent:#0b6e4f; --accent-soft:#e3f4ec; --danger:#b42318;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 "Segoe UI",Roboto,Arial,sans-serif}
+  header.top{background:var(--accent);color:#fff;padding:18px 16px;text-align:center}
+  header.top h1{margin:0;font-size:20px;letter-spacing:.3px}
+  header.top p{margin:4px 0 0;font-size:13px;opacity:.9}
+  main{max-width:920px;margin:0 auto;padding:16px 16px 110px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:16px}
+  .card h2{margin:0 0 12px;font-size:16px;color:var(--accent);text-transform:uppercase;letter-spacing:.3px}
+  .card h3{margin:14px 0 8px;font-size:15px}
+  .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:10px 14px}
+  .c12{grid-column:span 12}.c8{grid-column:span 8}.c6{grid-column:span 6}.c4{grid-column:span 4}.c3{grid-column:span 3}
+  @media(max-width:640px){.c8,.c6,.c4,.c3{grid-column:span 12}}
+  label.f{display:block;font-size:13px;color:var(--muted);margin-bottom:3px}
+  input[type=text],input[type=number],input[type=date],textarea,select{
+    width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:7px;font:inherit;background:#fff;color:var(--text)}
+  input:focus,textarea:focus,select:focus{outline:2px solid var(--accent-soft);border-color:var(--accent)}
+  textarea{min-height:64px;resize:vertical}
+  .upper{text-transform:uppercase}
+  .auto{background:#f8fafb}
+  .radios{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center;padding:4px 0}
+  .radios label{display:inline-flex;gap:6px;align-items:center;cursor:pointer}
+  .row{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;justify-content:space-between;
+       padding:8px 0;border-bottom:1px dashed var(--line)}
+  .row:last-child{border-bottom:0}
+  .hint{font-size:12.5px;color:var(--muted);font-style:italic}
+  .unit{display:flex;align-items:center;gap:6px}.unit span{color:var(--muted);font-size:13px;white-space:nowrap}
+  table.vac{width:100%;border-collapse:collapse}
+  table.vac th,table.vac td{border:1px solid var(--line);padding:6px 8px;text-align:center}
+  table.vac td:nth-child(2){text-align:left}
+  table.vac th{background:#f0f4f8;font-size:13px}
+  .sub{border-left:3px solid var(--accent-soft);padding-left:12px;margin-top:6px}
+  .bar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);
+       padding:10px 16px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;z-index:5}
+  button{font:inherit;border-radius:7px;padding:9px 16px;cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--text)}
+  button.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+  button.danger{color:var(--danger)}
+  #msg{position:fixed;left:50%;bottom:70px;transform:translateX(-50%);background:#1f2933;color:#fff;
+       padding:8px 14px;border-radius:7px;font-size:14px;display:none;z-index:6}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>NỘI DUNG KIỂM TRA SỨC KHỎE ĐẦU NĂM HỌC CHO HỌC SINH</h1>
+  <p>Phụ lục III – Ban hành kèm theo Thông tư số 33/2026/TT-BYT ngày 29/8/2026 của Bộ trưởng Bộ Y tế</p>
+</header>
+
+<main>
+<form id="f" autocomplete="off" onsubmit="return false">
+
+<!-- ================= THÔNG TIN HÀNH CHÍNH ================= -->
+<section class="card">
+  <h2>Thông tin hành chính</h2>
+  <div class="grid">
+    <div class="c12"><label class="f">1. Họ và tên (viết chữ in hoa)</label>
+      <input type="text" name="hoTen" class="upper"></div>
+
+    <div class="c4"><label class="f">2. Giới tính</label>
+      <div class="radios">
+        <label><input type="radio" name="gioiTinh" value="Nam"> Nam</label>
+        <label><input type="radio" name="gioiTinh" value="Nữ"> Nữ</label>
+      </div></div>
+    <div class="c4"><label class="f">3. Ngày tháng năm sinh</label>
+      <input type="date" name="ngaySinh"></div>
+    <div class="c4"><label class="f">Tuổi (tự tính, có thể sửa)</label>
+      <input type="text" name="tuoi" class="auto"></div>
+
+    <div class="c12"><label class="f">4. Số CC/CCCD/Hộ chiếu/Mã định danh</label>
+      <input type="text" name="soDinhDanh"></div>
+
+    <div class="c4"><label class="f">5. Cấp ngày</label>
+      <input type="date" name="capNgay"></div>
+    <div class="c8"><label class="f">Nơi cấp</label>
+      <input type="text" name="noiCap"></div>
+
+    <div class="c4"><label class="f">6. Dân tộc</label>
+      <input type="text" name="danToc" list="dsDanToc"></div>
+    <div class="c8"><label class="f">7. Đối tượng</label>
+      <input type="text" name="doiTuong"></div>
+
+    <div class="c8"><label class="f">8. Nguồn chi trả</label>
+      <input type="text" name="nguonChiTra"></div>
+    <div class="c4"><label class="f">9. Nhóm máu (nếu có)</label>
+      <input type="text" name="nhomMau" list="dsNhomMau"></div>
+
+    <div class="c12"><label class="f" style="font-weight:600;color:var(--text)">10. Nơi ở hiện tại</label></div>
+    <div class="c4"><label class="f">Tỉnh/thành</label><input type="text" name="tinh"></div>
+    <div class="c4"><label class="f">Phường/xã</label><input type="text" name="xa"></div>
+    <div class="c4"><label class="f">Số nhà/thôn/xóm</label><input type="text" name="soNha"></div>
+    <div class="c12"><label class="f">Tên cơ sở giáo dục đang theo học</label>
+      <input type="text" name="truong"></div>
+
+    <div class="c12"><label class="f">11. Lý do khám sức khỏe</label>
+      <input type="text" name="lyDo" placeholder="VD: Kiểm tra sức khỏe đầu năm học"></div>
+  </div>
+  <datalist id="dsDanToc"><option>Kinh</option><option>Tày</option><option>Thái</option><option>Mường</option>
+    <option>Khmer</option><option>Hoa</option><option>Nùng</option><option>H'Mông</option><option>Dao</option></datalist>
+  <datalist id="dsNhomMau"><option>A</option><option>B</option><option>AB</option><option>O</option>
+    <option>A Rh+</option><option>B Rh+</option><option>AB Rh+</option><option>O Rh+</option></datalist>
+</section>
+
+<!-- ================= TIỀN SỬ BỆNH TẬT ================= -->
+<section class="card">
+  <h2>Tiền sử bệnh tật</h2>
+
+  <h3>1. Tiền sử gia đình</h3>
+  <div>Có ai trong gia đình mắc các bệnh bẩm sinh hoặc bệnh truyền nhiễm không?</div>
+  <div class="radios">
+    <label><input type="radio" name="giaDinh" value="khong"> a) Không</label>
+    <label><input type="radio" name="giaDinh" value="co"> b) Có</label>
+  </div>
+  <div class="sub" data-show="giaDinh=co">
+    <label class="f">Nếu "có", ghi cụ thể tên bệnh</label>
+    <textarea name="giaDinhBenh"></textarea>
+  </div>
+
+  <h3>2. Tiền sử bản thân</h3>
+  <strong>a) Sản khoa</strong>
+  <div class="radios">
+    <label><input type="radio" name="sanKhoa" value="bt"> Bình thường</label>
+    <label><input type="radio" name="sanKhoa" value="kbt"> Không bình thường</label>
+  </div>
+  <div class="sub" data-show="sanKhoa=kbt">
+    <div class="radios">
+      <label><input type="checkbox" name="sk_thieuThang"> Đẻ thiếu tháng</label>
+      <label><input type="checkbox" name="sk_thuaCan"> Đẻ thừa cân</label>
+      <label><input type="checkbox" name="sk_canThiep"> Đẻ có can thiệp</label>
+      <label><input type="checkbox" name="sk_ngat"> Đẻ ngạt</label>
+      <label><input type="checkbox" name="sk_meBenh"> Mẹ bị bệnh trong thời kỳ mang thai</label>
+    </div>
+    <label class="f">Nếu mẹ bị bệnh, ghi rõ tên bệnh</label>
+    <textarea name="sk_benhMe"></textarea>
+  </div>
+
+  <strong style="display:block;margin-top:12px">b) Tiêm chủng</strong>
+  <div style="overflow-x:auto;margin-top:6px">
+  <table class="vac">
+    <thead>
+      <tr><th rowspan="2">STT</th><th rowspan="2">Loại vắc xin</th><th colspan="3">Tình trạng tiêm/uống vắc xin</th></tr>
+      <tr><th>Có</th><th>Không</th><th>Không nhớ rõ</th></tr>
+    </thead>
+    <tbody id="vacBody"></tbody>
+  </table>
+  </div>
+
+  <strong style="display:block;margin-top:14px">c) Tiền sử bệnh/tật (các bệnh bẩm sinh và mãn tính)</strong>
+  <div class="radios">
+    <label><input type="radio" name="benhTat" value="khong"> Không</label>
+    <label><input type="radio" name="benhTat" value="co"> Có</label>
+  </div>
+  <div class="sub" data-show="benhTat=co">
+    <label class="f">Nếu "có": ghi cụ thể tên bệnh</label>
+    <textarea name="benhTatTen"></textarea>
+  </div>
+
+  <strong style="display:block;margin-top:14px">d) Hiện tại có đang điều trị bệnh gì không?</strong>
+  <div class="radios">
+    <label><input type="radio" name="dieuTri" value="khong"> Không</label>
+    <label><input type="radio" name="dieuTri" value="co"> Có</label>
+  </div>
+  <div class="sub" data-show="dieuTri=co">
+    <label class="f">Nếu có, ghi rõ tên bệnh và liệt kê các thuốc đang dùng</label>
+    <textarea name="dieuTriTen"></textarea>
+  </div>
+</section>
+
+<!-- ================= I. KHÁM THỂ LỰC ================= -->
+<section class="card">
+  <h2>I. Khám thể lực</h2>
+  <div class="grid">
+    <div class="c4"><label class="f">Chiều cao</label>
+      <div class="unit"><input type="number" step="0.1" min="0" name="chieuCao"><span>cm</span></div></div>
+    <div class="c4"><label class="f">Cân nặng</label>
+      <div class="unit"><input type="number" step="0.1" min="0" name="canNang"><span>kg</span></div></div>
+    <div class="c4"><label class="f">Chỉ số BMI (tự tính)</label>
+      <input type="text" name="bmi" class="auto"></div>
+    <div class="c4"><label class="f">Mạch</label>
+      <div class="unit"><input type="number" min="0" name="mach"><span>lần/phút</span></div></div>
+    <div class="c8"><label class="f">Huyết áp</label>
+      <div class="unit"><input type="number" min="0" name="haTamThu" placeholder="Tâm thu"><span>/</span>
+        <input type="number" min="0" name="haTamTruong" placeholder="Tâm trương"><span>mmHg</span></div></div>
+  </div>
+</section>
+
+<!-- ================= II. KHÁM LÂM SÀNG ================= -->
+<section class="card">
+  <h2>II. Khám lâm sàng</h2>
+  <p class="hint">Quan sát: Nét mặt/tư thế/tỷ lệ, sự đối xứng với các bộ phận cơ thể/sự chuyển động của trẻ. Tìm dấu hiệu bất thường về sức khỏe.</p>
+
+  <h3>1. Mắt – Kết quả khám thị lực</h3>
+  <div class="grid">
+    <div class="c3"><label class="f">Không kính – Mắt phải</label><input type="text" name="kkPhai"></div>
+    <div class="c3"><label class="f">Không kính – Mắt trái</label><input type="text" name="kkTrai"></div>
+    <div class="c3"><label class="f">Có kính – Mắt phải</label><input type="text" name="ckPhai"></div>
+    <div class="c3"><label class="f">Có kính – Mắt trái</label><input type="text" name="ckTrai"></div>
+    <div class="c12"><label class="f">Các bệnh về mắt (nếu có)</label><input type="text" name="benhMat"></div>
+  </div>
+
+  <h3>2. Tai – Mũi – Họng – Kết quả khám thính lực</h3>
+  <div class="grid">
+    <div class="c3"><label class="f">Tai trái – Nói thường (m)</label><input type="text" name="ttThuong"></div>
+    <div class="c3"><label class="f">Tai trái – Nói thầm (m)</label><input type="text" name="ttTham"></div>
+    <div class="c3"><label class="f">Tai phải – Nói thường (m)</label><input type="text" name="tpThuong"></div>
+    <div class="c3"><label class="f">Tai phải – Nói thầm (m)</label><input type="text" name="tpTham"></div>
+    <div class="c12"><label class="f">Các bất thường về tai mũi họng (nếu có)</label><input type="text" name="batThuongTMH"></div>
+  </div>
+
+  <h3>3. Răng – Hàm – Mặt – Kết quả khám</h3>
+  <div class="grid">
+    <div class="c6"><label class="f">Hàm trên</label><input type="text" name="hamTren"></div>
+    <div class="c6"><label class="f">Hàm dưới</label><input type="text" name="hamDuoi"></div>
+    <div class="c12"><label class="f">Các bất thường khác về răng hàm mặt (nếu có ghi rõ)</label><input type="text" name="rhmKhac"></div>
+  </div>
+
+  <h3>4. Cơ xương, thần kinh và tâm thần</h3>
+  <div class="row"><span>- Vận động không đối xứng</span>
+    <span class="radios"><label><input type="radio" name="vanDong" value="khong"> Không</label>
+      <label><input type="radio" name="vanDong" value="co"> Có</label></span></div>
+  <div class="row"><span>- Kiểm tra lưng, cột sống</span>
+    <span class="radios"><label><input type="radio" name="cotSong" value="bt"> Bình thường</label>
+      <label><input type="radio" name="cotSong" value="kbt"> Không bình thường</label></span></div>
+  <div class="row"><span>- Quan sát dáng đi</span>
+    <span class="radios"><label><input type="radio" name="dangDi" value="bt"> Bình thường</label>
+      <label><input type="radio" name="dangDi" value="kbt"> Không bình thường</label></span></div>
+  <div class="row"><span>- Có biểu hiện buồn bã, lo âu, mất ngủ kéo dài không</span>
+    <span class="radios"><label><input type="radio" name="buonBa" value="co"> Có</label>
+      <label><input type="radio" name="buonBa" value="khong"> Không</label></span></div>
+  <div class="row"><span>- Có hành vi bất thường hoặc nguy cơ tự gây hại không</span>
+    <span class="radios"><label><input type="radio" name="hanhVi" value="co"> Có</label>
+      <label><input type="radio" name="hanhVi" value="khong"> Không</label></span></div>
+  <div style="margin-top:8px"><label class="f">Nếu có đề nghị ghi rõ</label><textarea name="cxGhiRo"></textarea></div>
+</section>
+
+<!-- ================= III. KẾT LUẬN CHUNG ================= -->
+<section class="card">
+  <h2>III. Kết luận chung</h2>
+  <div class="grid">
+    <div class="c12"><label class="f">Tình trạng sức khỏe, mắc các bệnh tật (nếu có)</label><textarea name="ketLuan"></textarea></div>
+    <div class="c12"><label class="f">Cần được tư vấn/ chuyển khám chuyên khoa</label><input type="text" name="tuVan"></div>
+    <div class="c4"><label class="f">Địa danh (nơi ký)</label><input type="text" name="noiKy"></div>
+    <div class="c4"><label class="f">Ngày ký</label><input type="date" name="ngayKy"></div>
+    <div class="c4"><label class="f">Họ tên người kết luận</label><input type="text" name="nguoiKetLuan"></div>
+  </div>
+</section>
+
+</form>
+</main>
+
+<div class="bar">
+  <button type="button" class="primary" id="btnWord">⬇ Xuất file Word</button>
+  <button type="button" id="btnSaveJson">Lưu dữ liệu (.json)</button>
+  <button type="button" id="btnOpenJson">Mở dữ liệu (.json)</button>
+  <button type="button" class="danger" id="btnReset">Xóa trắng</button>
+  <input type="file" id="fileJson" accept=".json,application/json" hidden>
+</div>
+<div id="msg"></div>
+
+<script>
+/* =====================================================================
+   1. DỮ LIỆU CỐ ĐỊNH
+   ===================================================================== */
+const VACCINES = ['BCG','Bạch hầu, ho gà, uốn ván','Sởi','Bại liệt','Viêm não Nhật Bản B','Viêm gan B','Các loại khác'];
+const SAN_KHOA = [
+  ['sk_thieuThang','Đẻ thiếu tháng'],['sk_thuaCan','Đẻ thừa cân'],['sk_canThiep','Đẻ có can thiệp'],
+  ['sk_ngat','Đẻ ngạt'],['sk_meBenh','Mẹ bị bệnh trong thời kỳ mang thai (Nếu có cần ghi rõ tên bệnh)']
+];
+const STORE_KEY = 'ksk-hoc-sinh-nhap';
+const form = document.getElementById('f');
+
+/* Bảng tiêm chủng: sinh các dòng radio */
+document.getElementById('vacBody').innerHTML = VACCINES.map((v,i)=>{
+  const n = 'vac'+(i+1);
+  const extra = i===6 ? `<br><input type="text" name="vacKhac" placeholder="Ghi tên vắc xin khác (nếu có)" style="margin-top:4px">` : '';
+  return `<tr><td>${i+1}</td><td>${v}${extra}</td>
+    <td><input type="radio" name="${n}" value="co" aria-label="${v} – Có"></td>
+    <td><input type="radio" name="${n}" value="khong" aria-label="${v} – Không"></td>
+    <td><input type="radio" name="${n}" value="knr" aria-label="${v} – Không nhớ rõ"></td></tr>`;
+}).join('');
+
+/* =====================================================================
+   2. ĐỌC / GHI DỮ LIỆU FORM
+   ===================================================================== */
+function getData(){
+  const d = {};
+  for (const el of form.elements){
+    if (!el.name) continue;
+    if (el.type==='radio'){ if (el.checked) d[el.name]=el.value; else if(!(el.name in d)) d[el.name]=''; }
+    else if (el.type==='checkbox') d[el.name]=el.checked;
+    else d[el.name]=el.value.trim();
+  }
+  d.hoTen = (d.hoTen||'').toUpperCase();
+  return d;
+}
+function setData(d){
+  form.reset();
+  for (const el of form.elements){
+    if (!el.name || !(el.name in d)) continue;
+    if (el.type==='radio') el.checked = (d[el.name]===el.value);
+    else if (el.type==='checkbox') el.checked = !!d[el.name];
+    else el.value = d[el.name] ?? '';
+  }
+  refresh();
+}
+
+/* Tự tính tuổi và BMI; ẩn/hiện ô "nếu có" */
+function refresh(){
+  const d = getData();
+  if (d.ngaySinh && !form.tuoi.dataset.manual){
+    const b = new Date(d.ngaySinh), t = new Date();
+    let age = t.getFullYear()-b.getFullYear();
+    if (t.getMonth()<b.getMonth() || (t.getMonth()===b.getMonth() && t.getDate()<b.getDate())) age--;
+    form.tuoi.value = age>=0 ? age : '';
+  }
+  const h = parseFloat(d.chieuCao)/100, w = parseFloat(d.canNang);
+  form.bmi.value = (h>0 && w>0) ? (w/(h*h)).toFixed(1) : '';
+  document.querySelectorAll('[data-show]').forEach(el=>{
+    const [k,v] = el.dataset.show.split('=');
+    el.style.display = d[k]===v ? '' : 'none';
+  });
+}
+form.tuoi.addEventListener('input',()=>{ form.tuoi.dataset.manual = form.tuoi.value ? '1' : ''; });
+
+/* Tự lưu nháp trên trình duyệt (bỏ qua nếu trình duyệt chặn) */
+function saveDraft(){ try{ localStorage.setItem(STORE_KEY, JSON.stringify(getData())); }catch(e){} }
+function loadDraft(){ try{ const s=localStorage.getItem(STORE_KEY); if(s) setData(JSON.parse(s)); }catch(e){} }
+form.addEventListener('input',()=>{ refresh(); saveDraft(); });
+form.addEventListener('change',()=>{ refresh(); saveDraft(); });
+
+function toast(t){ const m=document.getElementById('msg'); m.textContent=t; m.style.display='block';
+  clearTimeout(toast.t); toast.t=setTimeout(()=>m.style.display='none',2500); }
+
+/* =====================================================================
+   3. TẠO FILE WORD THEO ĐÚNG MẪU (thư viện docx)
+   ===================================================================== */
+function buildDocx(d){
+  const { Document, Paragraph, TextRun, Table, TableRow, TableCell, WidthType, AlignmentType,
+          BorderStyle, TabStopType, VerticalAlign } = docx;
+
+  const FULL = 9360;                          // bề rộng vùng in (twip): Letter 8.5" – lề 1" x 2
+  const DOT = (n)=> '.'.repeat(n);
+  const R = (text, o={}) => new TextRun({ text, ...o });
+  const B = (text, o={}) => R(text, { bold:true, ...o });
+  const I = (text, o={}) => R(text, { italics:true, ...o });
+  const box = (on) => R(on ? '☒' : '☐', { font:'Segoe UI Symbol' });
+  const v = (val, n) => R(val ? String(val) : DOT(n));     // giá trị hoặc dấu chấm
+  const leader = () => R('\t');                             // chấm kéo dài tới lề phải
+
+  // Đoạn văn chuẩn; có tab dấu chấm tới lề phải
+  const P = (children, o={}) => new Paragraph({
+    children, alignment: o.align ?? AlignmentType.JUSTIFIED,
+    spacing: { after: o.after ?? 60, line: 276 },
+    tabStops: [{ type: TabStopType.RIGHT, position: o.tabPos ?? FULL, leader: 'dot' }],
+    indent: o.indent, keepNext: o.keepNext,
+  });
+  // Dòng "nhãn: giá trị" — nếu trống thì kẻ chấm tới hết dòng
+  const lineField = (labelRuns, val, o) => P([...labelRuns, val ? R(' '+val) : leader()], o);
+  // Nhiều dòng văn bản; nếu trống thì in n dòng chấm
+  const multi = (val, n, o) => val
+      ? val.split(/\n/).map(t => P([R(t)], o))
+      : Array.from({length:n}, () => P([leader()], o));
+  const fmtDate = (s) => { if(!s) return ''; const [y,m,dd]=s.split('-'); return `${dd}/${m}/${y}`; };
+
+  const children = [];
+
+  /* ---------- Tiêu đề ---------- */
+  const C = AlignmentType.CENTER;
+  children.push(
+    P([B('Phụ lục III')], {align:C, after:0}),
+    P([B('NỘI DUNG KIỂM TRA SỨC KHỎE ĐẦU NĂM HỌC CHO HỌC SINH')], {align:C, after:0}),
+    P([B('TRONG CÁC CƠ SỞ GIÁO DỤC PHỔ THÔNG')], {align:C, after:0}),
+    P([I('(Ban hành kèm theo Thông tư số 33/2026/TT-BYT ngày 29 tháng 8 năm 2026 của Bộ trưởng Bộ Y tế)')], {align:C}),
+    P([R('')]),
+  );
+
+  /* ---------- Thông tin hành chính ---------- */
+  const [cy,cm,cd] = (d.capNgay||'').split('-');
+  children.push(
+    P([B('THÔNG TIN HÀNH CHÍNH')]),
+    lineField([R('1. Họ và tên '), I('(viết chữ in hoa)'), R(':')], d.hoTen),
+    P([R('2. Giới tính: '), box(d.gioiTinh==='Nam'), R(' Nam  '), box(d.gioiTinh==='Nữ'), R(' Nữ     '),
+       R('3. Ngày tháng năm sinh: '), v(fmtDate(d.ngaySinh), 22), R('; Tuổi: '),
+       d.tuoi ? R(String(d.tuoi)) : leader()]),
+    lineField([R('4. Số CC/CCCD/Hộ chiếu/Mã định danh:')], d.soDinhDanh),
+    P([R('5. Cấp ngày: '), R(d.capNgay ? `${cd}/${cm}/${cy}` : '....../....../..........'),
+       R(' Nơi cấp: '), d.noiCap ? R(d.noiCap) : leader()]),
+    P([R('6. Dân tộc: '), v(d.danToc, 30), R('     7. Đối tượng: '), d.doiTuong ? R(d.doiTuong) : leader()]),
+    lineField([R('8. Nguồn chi trả:')], d.nguonChiTra),
+    P([R('9. Nhóm máu: '), v(d.nhomMau, 30), R(' (nếu có)')]),
+    P([R('10. Nơi ở hiện tại: ')]),
+    P([R('- Nơi ở hiện tại: Tỉnh/thành: '), v(d.tinh, 24), R(' phường/xã: '), v(d.xa, 24),
+       R(' số nhà/thôn/xóm: '), d.soNha ? R(d.soNha) : leader()]),
+    lineField([R('- Tên cơ sở giáo dục đang theo học:')], d.truong),
+    lineField([R('11. Lý do khám sức khỏe:')], d.lyDo),
+    P([R('')]),
+  );
+
+  /* ---------- Tiền sử bệnh tật ---------- */
+  children.push(
+    P([B('TIỀN SỬ BỆNH TẬT')]),
+    P([B('1. Tiền sử gia đình')]),
+    P([R('Có ai trong gia đình mắc các bệnh bẩm sinh hoặc bệnh truyền nhiễm không:')]),
+    P([R('a) '), box(d.giaDinh==='khong'), R(' Không  b) '), box(d.giaDinh==='co'),
+       R(' Có; Nếu “có”, đề nghị ghi cụ thể tên bệnh: '), d.giaDinhBenh ? R('') : leader()]),
+    ...(d.giaDinhBenh ? multi(d.giaDinhBenh) : multi('', 3)),
+    P([B('2. Tiền sử bản thân:')]),
+    P([B('a) Sản khoa:')]),
+    P([box(d.sanKhoa==='bt'), R(' Bình thường.')]),
+    P([box(d.sanKhoa==='kbt'), R(' Không bình thường: '),
+       ...SAN_KHOA.flatMap(([k,label],i)=>[box(d.sanKhoa==='kbt' && d[k]), R(' '+label + (i<SAN_KHOA.length-1?'; ':': '))]),
+       d.sk_benhMe ? R(d.sk_benhMe.replace(/\n/g,'; ')) : leader()]),
+    ...(d.sk_benhMe ? [] : multi('', 3)),
+    P([R('b) Tiêm chủng:')], {keepNext:true}),
+  );
+
+  // Bảng tiêm chủng (5 cột)
+  const W = [800, 3760, 1600, 1600, 1600];
+  const cell = (runs, width, o={}) => new TableCell({
+    children:[new Paragraph({ children: runs, alignment: o.align ?? C })],
+    width:{ size: width, type: WidthType.DXA }, verticalAlign: VerticalAlign.CENTER,
+    rowSpan:o.rowSpan, columnSpan:o.columnSpan, margins:{ top:40, bottom:40, left:80, right:80 },
+  });
+  const vacRows = [
+    new TableRow({ tableHeader:true, children:[
+      cell([B('STT')], W[0], {rowSpan:2}), cell([B('Loại vắc xin')], W[1], {rowSpan:2}),
+      cell([B('Tình trạng tiêm/uống vắc xin')], W[2]+W[3]+W[4], {columnSpan:3}) ]}),
+    new TableRow({ tableHeader:true, children:[ cell([B('Có')], W[2]), cell([B('Không')], W[3]), cell([B('Không nhớ rõ')], W[4]) ]}),
+    ...VACCINES.map((name,i)=>{
+      const s = d['vac'+(i+1)];
+      const label = (i===6 && d.vacKhac) ? `${name}: ${d.vacKhac}` : name;
+      return new TableRow({ children:[
+        cell([R(String(i+1))], W[0]), cell([R(label)], W[1], {align:AlignmentType.LEFT}),
+        cell([box(s==='co')], W[2]), cell([box(s==='khong')], W[3]), cell([box(s==='knr')], W[4]) ]});
+    }),
+  ];
+  children.push(new Table({ rows: vacRows, width:{ size: FULL, type: WidthType.DXA }, columnWidths: W }));
+
+  children.push(
+    P([R('')]),
+    P([R('c) Tiền sử bệnh/tật: (Các bệnh bẩm sinh và mãn tính)')]),
+    P([box(d.benhTat==='khong'), R(' Không')]),
+    P([box(d.benhTat==='co'), R(' Có')]),
+    P([R('Nếu “có”: ghi cụ thể tên bệnh')]),
+    ...multi(d.benhTatTen, 1),
+    P([R('d) Hiện tại có đang điều trị bệnh gì không?')]),
+    P([box(d.dieuTri==='khong'), R(' Không')]),
+    P([box(d.dieuTri==='co'), R(' Có')]),
+    P([R('Nếu có, ghi rõ tên bệnh và liệt kê các thuốc đang dùng:')]),
+    ...multi(d.dieuTriTen, 2),
+  );
+
+  /* ---------- I. Khám thể lực ---------- */
+  children.push(
+    P([B('I. KHÁM THỂ LỰC')]),
+    P([R('- Chiều cao: '), v(d.chieuCao, 20), R(' cm;')]),
+    P([R('- Cân nặng: '), v(d.canNang, 20), R(' Kg;')]),
+    P([R('- Chỉ số BMI: '), v(d.bmi, 20), R(';')]),
+    P([R('- Mạch: '), v(d.mach, 24), R(' lần/phút;')]),
+    P([R('- Huyết áp: '), v(d.haTamThu, 12), R('/'), v(d.haTamTruong, 14), R(' mmHg.')]),
+  );
+
+  /* ---------- II. Khám lâm sàng (bảng 1 cột có viền) ---------- */
+  children.push(
+    P([B('II. KHÁM LÂM SÀNG:')], {keepNext:true}),
+    P([I('Quan sát: Nét mặt/tư thế/tỷ lệ, sự đối xứng với các bộ phận cơ thể/sự chuyển động của trẻ. Tìm dấu hiệu bất thường về sức khỏe')], {keepNext:true}),
+  );
+  const IN = FULL - 240;          // tab trong ô bảng (trừ lề ô)
+  const PC = (runs, o={}) => P(runs, { tabPos: IN, after: 40, ...o });
+  const half = (label, val) => [R(label), v(val, 28)];
+  const one = (paras) => new TableRow({ cantSplit:true, children:[ new TableCell({
+    children: paras, width:{ size: FULL, type: WidthType.DXA }, margins:{ top:60, bottom:60, left:110, right:110 } }) ]});
+  const radio2 = (label, key, a, b) => PC([R(label), box(d[key]===a[0]), R(' '+a[1]+'     '), box(d[key]===b[0]), R(' '+b[1])]);
+
+  const clinical = new Table({ width:{ size: FULL, type: WidthType.DXA }, columnWidths:[FULL], rows:[
+    one([PC([B('1. Mắt:')])]),
+    one([
+      PC([I('Kết quả khám thị lực:')]),
+      PC([...half('Không kính: Mắt phải ', d.kkPhai), R(' Mắt trái '), d.kkTrai ? R(d.kkTrai) : leader()]),
+      PC([...half('Có kính: Mắt phải ', d.ckPhai), R(' Mắt trái '), d.ckTrai ? R(d.ckTrai) : leader()]),
+      PC([I('Các bệnh về mắt (nếu có): '), d.benhMat ? R(d.benhMat) : leader()]),
+    ]),
+    one([PC([B('2. Tai - Mũi - Họng')])]),
+    one([
+      PC([I('Kết quả khám thính lực:')]),
+      PC([R('Tai trái: Nói thường '), v(d.ttThuong, 28), R(' m; Nói thầm '), v(d.ttTham, 28), R(' m')]),
+      PC([R('Tai phải: Nói thường '), v(d.tpThuong, 28), R(' m; Nói thầm '), v(d.tpTham, 28), R(' m')]),
+      PC([I('Các bất thường về tai mũi họng (nếu có): '), d.batThuongTMH ? R(d.batThuongTMH) : leader()]),
+    ]),
+    one([PC([B('3. Răng - Hàm - Mặt')])]),
+    one([
+      PC([I('Kết quả khám:')]),
+      PC([R('Hàm trên: '), d.hamTren ? R(d.hamTren) : leader()]),
+      PC([R('Hàm dưới: '), d.hamDuoi ? R(d.hamDuoi) : leader()]),
+      PC([R('- Các bất thường khác về răng hàm mặt (nếu có ghi rõ): '), d.rhmKhac ? R(d.rhmKhac) : leader()]),
+    ]),
+    one([
+      PC([B('4. Cơ xương, thần kinh và tâm thần')]),
+      radio2('- Vận động không đối xứng:     ', 'vanDong', ['khong','Không'], ['co','Có']),
+      radio2('- Kiểm tra lưng, cột sống:     ', 'cotSong', ['bt','Bình thường'], ['kbt','Không bình thường']),
+      radio2('- Quan sát dáng đi:     ', 'dangDi', ['bt','Bình thường'], ['kbt','Không bình thường']),
+      radio2('- Có biểu hiện buồn bã, lo âu, mất ngủ kéo dài không: ', 'buonBa', ['co','Có'], ['khong','Không']),
+      radio2('- Có hành vi bất thường hoặc nguy cơ tự gây hại không: ', 'hanhVi', ['co','Có'], ['khong','Không']),
+      PC([R('Nếu có đề nghị ghi rõ: '), d.cxGhiRo ? R(d.cxGhiRo.replace(/\n/g,'; ')) : leader()]),
+      ...(d.cxGhiRo ? [] : [PC([leader()])]),
+    ]),
+  ]});
+  children.push(clinical, P([R('')]));
+
+  /* ---------- III. Kết luận chung ---------- */
+  children.push(
+    P([B('III. KẾT LUẬN CHUNG:')]),
+    P([R('Tình trạng sức khỏe, mắc các bệnh tật (nếu có): '), d.ketLuan ? R(d.ketLuan.replace(/\n/g,'; ')) : leader()]),
+    P([B('Cần được tư vấn/ chuyển khám chuyên khoa: '), d.tuVan ? R(d.tuVan) : leader()]),
+    P([R('')]),
+  );
+
+  // Khối chữ ký (bảng 2 cột, không viền)
+  const [ky,km,kd] = (d.ngayKy||'').split('-');
+  const none = { style: BorderStyle.NONE, size:0, color:'FFFFFF' };
+  const noB = { top:none, bottom:none, left:none, right:none };
+  const sig = new Table({ width:{ size: FULL, type: WidthType.DXA }, columnWidths:[FULL/2, FULL/2],
+    borders:{ ...noB, insideHorizontal:none, insideVertical:none },
+    rows:[ new TableRow({ children:[
+      new TableCell({ children:[P([R('')])], width:{ size: FULL/2, type: WidthType.DXA }, borders:noB }),
+      new TableCell({ width:{ size: FULL/2, type: WidthType.DXA }, borders:noB, children:[
+        P([I(`${d.noiKy || '........'}, ngày ${kd || '.....'} tháng ${km || '....'} năm ${ky || '......'}`)], {align:C, after:0}),
+        P([B('NGƯỜI KẾT LUẬN')], {align:C, after:0}),
+        P([I('(Ký, ghi rõ họ tên và đóng dấu)')], {align:C, after:0}),
+        P([R('')]), P([R('')]), P([R('')]),
+        P([B(d.nguoiKetLuan || '')], {align:C}),
+      ]}),
+    ]})],
+  });
+  children.push(sig);
+
+  return new Document({
+    creator: 'Phiếu khám sức khỏe học sinh',
+    styles: { default: { document: { run: { font: 'Arial', size: 20 } } } },   // Arial 10pt như mẫu
+    sections: [{
+      properties: { page: { size: { width: 12240, height: 15840 },              // khổ Letter như mẫu
+                            margin: { top: 1440, right: 1440, bottom: 1440, left: 1440 } } },
+      children,
+    }],
+  });
+}
+
+/* Bỏ dấu tiếng Việt để đặt tên file */
+function slug(s){
+  return (s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/đ/g,'d').replace(/Đ/g,'D')
+    .replace(/[^A-Za-z0-9]+/g,'_').replace(/^_|_$/g,'') || 'hoc_sinh';
+}
+function download(blob, name){
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
+}
+
+/* =====================================================================
+   4. NÚT BẤM
+   ===================================================================== */
+document.getElementById('btnWord').onclick = async ()=>{
+  if (typeof docx === 'undefined'){ toast('Chưa tải được thư viện docx – kiểm tra kết nối mạng.'); return; }
+  try{
+    const d = getData();
+    const blob = await docx.Packer.toBlob(buildDocx(d));
+    download(blob, `KSK_${slug(d.hoTen)}.docx`);
+    toast('Đã xuất file Word.');
+  }catch(e){ console.error(e); toast('Lỗi khi tạo file: '+e.message); }
+};
+document.getElementById('btnSaveJson').onclick = ()=>{
+  const d = getData();
+  download(new Blob([JSON.stringify(d,null,2)],{type:'application/json'}), `KSK_${slug(d.hoTen)}.json`);
+};
+document.getElementById('btnOpenJson').onclick = ()=> document.getElementById('fileJson').click();
+document.getElementById('fileJson').onchange = async (e)=>{
+  const f = e.target.files[0]; if(!f) return;
+  try{ setData(JSON.parse(await f.text())); saveDraft(); toast('Đã mở dữ liệu.'); }
+  catch(err){ toast('File không hợp lệ.'); }
+  e.target.value='';
+};
+document.getElementById('btnReset').onclick = ()=>{
+  if (!confirm('Xóa toàn bộ dữ liệu đã nhập?')) return;
+  form.reset(); form.tuoi.dataset.manual=''; refresh(); try{ localStorage.removeItem(STORE_KEY); }catch(e){}
+};
+
+loadDraft();
+refresh();
+</script>
+</body>
+</html>
